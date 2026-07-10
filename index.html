@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LIONS FITNESS CENTER · by Ohad Sinai</title>
+<meta name="description" content="LIONS FITNESS CENTER — מקום חם ומקצועי לאנשים שרוצים להצליח באימונים. אימונים אישיים, קבוצתיים, OPEN GYM, גמישות, שיקום, תוכנית אימונים וליווי אונליין." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#283034;
+    --charcoal-deep:#1b2123;
+    --gold:#B6915D;
+    --gold-bright:#cda968;
+    --cream:#f5f2eb;
+    --white:#ffffff;
+    --muted:#9aa1a4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Heebo',sans-serif;
+    background:var(--charcoal-deep);
+    color:var(--cream);
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 32px;
+    transition:background .4s ease, padding .4s ease;
+  }
+  nav.scrolled{background:rgba(27,33,35,.92);backdrop-filter:blur(10px);padding:10px 32px;box-shadow:0 4px 30px rgba(0,0,0,.3)}
+  nav .logo img{height:46px;display:block}
+  nav .links{display:flex;gap:30px;font-weight:500;font-size:15px}
+  nav .links a{opacity:.85;transition:opacity .2s,color .2s}
+  nav .links a:hover{opacity:1;color:var(--gold-bright)}
+  nav .cta{
+    background:var(--gold);color:var(--charcoal-deep);
+    padding:10px 22px;border-radius:40px;font-weight:700;font-size:14px;
+    transition:transform .2s,background .2s;
+  }
+  nav .cta:hover{transform:translateY(-2px);background:var(--gold-bright)}
+  .nav-toggle{display:none;background:none;border:none;color:var(--cream);font-size:26px;cursor:pointer}
+
+  /* ---------- HERO SCROLL VIDEO ---------- */
+  #hero{position:relative;height:360vh}              /* tall scroll track */
+  #hero .sticky{
+    position:sticky;top:0;height:100vh;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  #hero video{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;z-index:1;
+  }
+  #hero .veil{position:absolute;inset:0;z-index:2;
+    background:linear-gradient(180deg,rgba(27,33,35,.55) 0%,rgba(27,33,35,.15) 35%,rgba(27,33,35,.25) 70%,rgba(27,33,35,.85) 100%);}
+  /* hero title */
+  .hero-title{position:relative;z-index:3;text-align:center;padding:0 20px;opacity:0;transition:opacity .12s linear,transform .12s linear}
+  .hero-title img{height:140px;margin-bottom:18px;filter:drop-shadow(0 8px 30px rgba(0,0,0,.5))}
+  .hero-title h1{font-size:clamp(28px,5vw,60px);font-weight:900;letter-spacing:1px;line-height:1.1}
+  .hero-title .by{color:var(--gold-bright);font-weight:500;letter-spacing:3px;margin-top:6px;font-size:clamp(13px,1.6vw,18px)}
+  .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:4;
+    color:var(--cream);opacity:.8;font-size:13px;letter-spacing:2px;text-align:center;animation:bob 1.8s ease-in-out infinite}
+  .scroll-hint span{display:block;font-size:22px;margin-top:4px}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+
+  /* reveal cards over the video */
+  .reveal-card{
+    position:absolute;z-index:3;width:280px;max-width:80vw;
+    background:rgba(20,25,27,.72);backdrop-filter:blur(7px);
+    border:1px solid rgba(182,145,93,.45);border-radius:16px;
+    padding:22px 26px;
+    opacity:0;transform:translateY(40px) scale(.96);
+    transition:opacity .6s ease, transform .6s ease;
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
+  }
+  .reveal-card.show{opacity:1;transform:translateY(0) scale(1)}
+  .reveal-card .num{color:var(--gold);font-weight:900;font-size:14px;letter-spacing:3px}
+  .reveal-card h3{font-size:26px;font-weight:900;margin:6px 0 8px}
+  .reveal-card p{font-size:15px;color:#d7d3ca;font-weight:300}
+  /* each card sits BESIDE its subject, not over it */
+  .reveal-card.c1{top:15%;left:3%}                       /* 01 אימונים אישיים – beside the LEFT trainee */
+  .reveal-card.c2{bottom:6%;left:50%;margin-left:-140px}  /* 02 גמישות – CENTER, just below the pair */
+  .reveal-card.c3{top:15%;right:3%}                      /* 03 OPEN GYM – beside the lone trainee (right) */
+  @media(max-width:760px){
+    .reveal-card{width:240px}
+    .reveal-card.c1{top:9%;left:50%;margin-left:-120px;transform:translateY(40px)}
+    .reveal-card.c2{top:39%;left:50%;margin-left:-120px;transform:translateY(40px)}
+    .reveal-card.c3{bottom:9%;top:auto;left:50%;right:auto;margin-left:-120px;transform:translateY(40px)}
+    .reveal-card.show{transform:translateY(0)}
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section.block{padding:110px 0;position:relative}
+  .eyebrow{color:var(--gold);font-weight:700;letter-spacing:4px;font-size:13px;margin-bottom:14px}
+  .h2{font-size:clamp(30px,4.4vw,48px);font-weight:900;line-height:1.15;margin-bottom:22px}
+  .lead{font-size:clamp(16px,2vw,20px);color:#c8c4bb;font-weight:300;max-width:680px}
+
+  /* intro */
+  #intro{background:var(--charcoal);text-align:center}
+  #intro .lead{margin:0 auto}
+  .stats{display:flex;justify-content:center;gap:60px;margin-top:60px;flex-wrap:wrap}
+  .stat .n{font-size:46px;font-weight:900;color:var(--gold-bright)}
+  .stat .l{font-size:14px;color:var(--muted);letter-spacing:1px}
+
+  /* services */
+  #services{background:var(--charcoal-deep)}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:50px}
+  .svc{
+    background:linear-gradient(160deg,rgba(40,48,52,.9),rgba(27,33,35,.9));
+    border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:34px 30px;
+    transition:transform .35s,border-color .35s,box-shadow .35s;
+  }
+  .svc:hover{transform:translateY(-8px);border-color:rgba(182,145,93,.55);box-shadow:0 24px 50px rgba(0,0,0,.4)}
+  .svc .ico{width:54px;height:54px;border-radius:12px;background:rgba(182,145,93,.15);
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+  .svc .ico svg{width:28px;height:28px;stroke:var(--gold-bright)}
+  .svc h3{font-size:22px;font-weight:700;margin-bottom:8px}
+  .svc p{font-size:15px;color:#b9b5ac;font-weight:300}
+  @media(max-width:900px){.svc-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.svc-grid{grid-template-columns:1fr}}
+
+  /* why us */
+  #why{background:var(--charcoal);overflow:hidden}
+  .why-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
+  .why-list{margin-top:30px;display:flex;flex-direction:column;gap:20px}
+  .why-item{display:flex;gap:16px;align-items:flex-start}
+  .why-item .dot{flex:none;width:38px;height:38px;border-radius:50%;background:var(--gold);
+    color:var(--charcoal-deep);display:flex;align-items:center;justify-content:center;font-weight:900}
+  .why-item h4{font-size:18px;font-weight:700}
+  .why-item p{font-size:14px;color:#b9b5ac;font-weight:300}
+  .why-visual{height:420px;border-radius:20px;overflow:hidden;position:relative;border:1px solid rgba(182,145,93,.3)}
+  .why-visual video{width:100%;height:100%;object-fit:cover}
+  @media(max-width:880px){.why-wrap{grid-template-columns:1fr}.why-visual{height:300px}}
+
+  /* CTA / contact */
+  #contact{background:linear-gradient(160deg,var(--charcoal),var(--charcoal-deep));text-align:center}
+  #contact .h2{margin-bottom:14px}
+  .btn-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+  .btn{padding:16px 34px;border-radius:46px;font-weight:700;font-size:16px;transition:transform .2s,background .2s,box-shadow .2s}
+  .btn.gold{background:var(--gold);color:var(--charcoal-deep)}
+  .btn.gold:hover{transform:translateY(-3px);background:var(--gold-bright);box-shadow:0 14px 30px rgba(182,145,93,.35)}
+  .btn.ghost{border:1.5px solid rgba(255,255,255,.3)}
+  .btn.ghost:hover{border-color:var(--gold);color:var(--gold-bright)}
+
+  /* footer */
+  footer{background:var(--charcoal-deep);border-top:1px solid rgba(255,255,255,.07);padding:50px 0 30px;text-align:center}
+  footer img{height:56px;margin-bottom:18px;opacity:.95}
+  footer .info{color:var(--muted);font-size:14px;line-height:2}
+  footer .copy{color:#5d6669;font-size:12px;margin-top:24px}
+
+  .fade-up{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}
+  .fade-up.in{opacity:1;transform:none}
+
+  @media(max-width:760px){
+    nav .links{display:none}
+    .nav-toggle{display:block}
+    .stats{gap:36px}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="logo" href="#top"><img src="assets/logo-ondark.png" alt="LIONS FITNESS CENTER"></a>
+  <div class="links">
+    <a href="#services">שירותים</a>
+    <a href="#why">למה אנחנו</a>
+    <a href="#intro">אודות</a>
+    <a href="#contact">צור קשר</a>
+  </div>
+  <a class="cta" href="#contact">אימון ניסיון</a>
+</nav>
+
+<!-- ===== HERO: scroll-driven video ===== -->
+<header id="top">
+<section id="hero">
+  <div class="sticky">
+    <video id="heroVideo" src="assets/hero.mp4" muted playsinline preload="auto"></video>
+    <div class="veil"></div>
+
+    <div class="hero-title" id="heroTitle" style="opacity:0">
+      <img src="assets/logo-ondark.png" alt="LIONS FITNESS CENTER">
+      <h1>המקום שבו מתאמנים<br>כדי להצליח</h1>
+      <div class="by">STRENGTH · MOVEMENT · COMMUNITY</div>
+    </div>
+
+    <!-- reveal cards -->
+    <div class="reveal-card c1" id="card1">
+      <div class="num">01</div>
+      <h3>אימונים אישיים</h3>
+      <p>מאמן צמוד שבונה לך תוכנית מדויקת ודוחף אותך קדימה — אחד על אחד.</p>
+    </div>
+    <div class="reveal-card c2" id="card2">
+      <div class="num">02</div>
+      <h3>גמישות ותנועה</h3>
+      <p>עבודה על טווחי תנועה, יציבה ומובמנט — גוף חופשי שזז בלי כאב.</p>
+    </div>
+    <div class="reveal-card c3" id="card3">
+      <div class="num">03</div>
+      <h3>OPEN GYM</h3>
+      <p>מרחב פתוח למתאמן העצמאי — כל הציוד שאתה צריך, מתי שמתאים לך.</p>
+    </div>
+
+    <div class="scroll-hint" id="scrollHint">גלול כדי להיכנס לסטודיו<span>↓</span></div>
+  </div>
+</section>
+</header>
+
+<!-- ===== INTRO ===== -->
+<section class="block" id="intro">
+  <div class="container fade-up">
+    <div class="eyebrow">LIONS FITNESS CENTER · BY OHAD SINAI</div>
+    <h2 class="h2">חם, מקצועי, ובלי פשרות על תוצאות</h2>
+    <p class="lead">לайонס פיטנס הוא לא עוד חדר כושר. זה מקום עם אופי — אווירה חמה ומשפחתית לצד מקצועיות אמיתית, מאמנים שמכירים אותך בשם, ותוכנית שמתאימה בדיוק לאן שאתה רוצה להגיע. בין אם באת לבנות כוח, לחזור מפציעה, או פשוט להרגיש טוב יותר בגוף שלך — כאן עושים את זה ברצינות.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">7</div><div class="l">סוגי אימון</div></div>
+      <div class="stat"><div class="n">1:1</div><div class="l">יחס אישי</div></div>
+      <div class="stat"><div class="n">∞</div><div class="l">מוטיבציה</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="block" id="services">
+  <div class="container">
+    <div class="fade-up">
+      <div class="eyebrow">מה אנחנו מציעים</div>
+      <h2 class="h2">כל דרך אימון — תחת קורת גג אחת</h2>
+    </div>
+    <div class="svc-grid">
+      <div class="svc fade-up">
+        <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75v10.5M17.25 6.75v10.5M3 9.75h3M18 9.75h3M6.75 12h10.5"/></svg></div>
+        <h3>אימונים אישיים</h3>
+        <p>אחד על אחד עם מאמן שבונה לך תוכנית אישית ומלווה אותך בכל חזרה.</p>
+      </div>
+      <div class="svc fade-up">
+        <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg></div>
+        <h3>אימוני קבוצה</h3>
+        <p>אנרגיה של קבוצה, דחיפה הדדית ואימון איכותי — מתאמנים ביחד, מתקדמים ביחד.</p>
+      </div>
+      <div class="svc fade-up">
+        <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5"/></svg></div>
+        <h3>OPEN GYM</h3>
+        <p>מרחב פתוח למתאמן העצמאי — כל הציוד והחופש להתאמן בקצב שלך.</p>
+      </div>
+      <div class="svc fade-up">
+        <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m0 0c-2 0-4-1-5-3m5 3c2 0 4-1 5-3M6 8c1-2 3-3 6-3s5 1 6 3"/></svg></div>
+        <h3>גמישות ומובמנט</h3>
+        <p>שיפור טווחי תנועה, יציבה וזרימה — גוף שזז חופשי וללא כאב.</p>
+      </div>
+      <div class="svc fade-up">
+        <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg></div>
+        <h3>אימוני שיקום</h3>
+        <p>חזרה בטוחה מפציעה עם ליווי מקצועי — בונים מחדש כוח ויציבות.</p>
+      </div>
+      <div class="svc fade-up">
+        <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <h3>תוכנית אימונים</h3>
+        <p>תוכנית בנויה אישית למטרות שלך — צעד אחר צעד, עם מדידה והתקדמות.</p>
+      </div>
+      <div class="svc fade-up">
+        <div class="ico"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"/></svg></div>
+        <h3>ליווי אונליין</h3>
+        <p>אימון וליווי מרחוק — תוכנית, מעקב ותמיכה מכל מקום, בכל זמן.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY US ===== -->
+<section class="block" id="why">
+  <div class="container">
+    <div class="why-wrap">
+      <div class="fade-up">
+        <div class="eyebrow">למה לבחור בנו</div>
+        <h2 class="h2">מקום לאנשים שרוצים להצליח</h2>
+        <p class="lead">אנחנו מאמינים שתוצאות מגיעות משילוב של מקצועיות אמיתית ויחס אנושי. כאן לא תרגישו מספר — תרגישו חלק ממשהו.</p>
+        <div class="why-list">
+          <div class="why-item"><div class="dot">✦</div><div><h4>יחס אישי אמיתי</h4><p>מאמנים שמכירים אתכם, את הגוף שלכם ואת המטרות שלכם.</p></div></div>
+          <div class="why-item"><div class="dot">✦</div><div><h4>מקצועיות בלי פשרות</h4><p>מאמנים מוסמכים, שיטות אימון מוכחות וליווי צמוד.</p></div></div>
+          <div class="why-item"><div class="dot">✦</div><div><h4>אווירה חמה ומחבקת</h4><p>קהילה שדוחפת אתכם קדימה ושמחה בכל הצלחה שלכם.</p></div></div>
+        </div>
+      </div>
+      <div class="why-visual fade-up">
+        <video src="assets/hero.mp4" muted loop autoplay playsinline></video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT / CTA ===== -->
+<section class="block" id="contact">
+  <div class="container fade-up">
+    <div class="eyebrow">מוכנים להתחיל?</div>
+    <h2 class="h2">בואו נתאמן ביחד</h2>
+    <p class="lead" style="margin:0 auto">השאירו פרטים ונחזור אליכם לתיאום אימון ניסיון — בלי התחייבות.</p>
+    <div class="btn-row">
+      <a class="btn gold" href="#" id="bookBtn">לקביעת אימון ניסיון</a>
+      <a class="btn ghost" href="https://wa.me/972000000000" target="_blank" rel="noopener">וואטסאפ</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <img src="assets/logo-ondark.png" alt="LIONS FITNESS CENTER">
+    <div class="info">
+      LIONS FITNESS CENTER · by Ohad Sinai<br>
+      טלפון: 000-0000000 · אימייל: info@lionsfitness.co.il<br>
+      [כתובת המכון]
+    </div>
+    <div class="copy">© 2026 LIONS FITNESS CENTER · כל הזכויות שמורות</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ---- nav scroll state ---- */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll',()=>{ nav.classList.toggle('scrolled', window.scrollY>40); });
+
+  /* ---- scroll-driven hero video ---- */
+  const hero = document.getElementById('hero');
+  const video = document.getElementById('heroVideo');
+  const heroTitle = document.getElementById('heroTitle');
+  const hint = document.getElementById('scrollHint');
+  const cards = [document.getElementById('card1'),document.getElementById('card2'),document.getElementById('card3')];
+  let duration = 15; // fallback
+  let targetTime = 0, currentTime = 0;
+  let ready = false;
+
+  video.addEventListener('loadedmetadata',()=>{ duration = video.duration || 15; ready = true; try{video.currentTime=0;}catch(e){} });
+
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+
+  function onScroll(){
+    const rect = hero.getBoundingClientRect();
+    const total = hero.offsetHeight - window.innerHeight;
+    const progress = clamp(-rect.top / total, 0, 1);   // 0..1 through hero
+
+    // map scroll -> video time
+    targetTime = progress * (duration - 0.05);
+
+    // title: hidden at the very top, fades IN as you enter the studio, then yields to the cards
+    const tIn  = clamp((progress - 0.10) / 0.12, 0, 1);   // appears ~10%-22%
+    const tOut = clamp((progress - 0.34) / 0.10, 0, 1);   // clears  ~34%-44%
+    heroTitle.style.opacity = (tIn * (1 - tOut)).toFixed(3);
+    heroTitle.style.transform = 'translateY(' + (22*(1-tIn)).toFixed(1) + 'px)';
+
+    // scroll hint only at the very top
+    hint.style.opacity = clamp(1 - progress*6, 0, 1);
+
+    // reveal cards in sequence as the camera passes each area — they stay on
+    cards[0].classList.toggle('show', progress>0.46);
+    cards[1].classList.toggle('show', progress>0.64);
+    cards[2].classList.toggle('show', progress>0.82);
+  }
+
+  // smooth video scrubbing via rAF (lerp toward target)
+  function tick(){
+    if(ready){
+      currentTime += (targetTime - currentTime) * 0.15;
+      if(Math.abs(targetTime - currentTime) > 0.005){
+        try{ video.currentTime = currentTime; }catch(e){}
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  // kick the video decoder so seeking is instant, then reset to frame 0 (outside the studio)
+  video.play().then(()=>{ video.pause(); try{video.currentTime=0;}catch(e){} }).catch(()=>{});
+  onScroll(); tick();
+
+  /* ---- fade-up on view ---- */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.15});
+  document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
+
+  /* book button placeholder */
+  document.getElementById('bookBtn').addEventListener('click',(e)=>{
+    e.preventDefault();
+    alert('כאן נחבר טופס לידים / מערכת קביעת תורים.');
+  });
+})();
+</script>
+</body>
+</html>
