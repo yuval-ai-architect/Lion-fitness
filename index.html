@@ -337,8 +337,10 @@
   let duration = 15; // fallback
   let targetTime = 0, currentTime = 0;
   let ready = false;
+  let seeking = false;   // guard: don't stack seeks (kills the stutter)
 
   video.addEventListener('loadedmetadata',()=>{ duration = video.duration || 15; ready = true; try{video.currentTime=0;}catch(e){} });
+  video.addEventListener('seeked',()=>{ seeking = false; });
 
   function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 
@@ -365,12 +367,14 @@
     cards[2].classList.toggle('show', progress>0.82);
   }
 
-  // smooth video scrubbing via rAF (lerp toward target)
+  // smooth video scrubbing via rAF (lerp toward target, one seek at a time)
   function tick(){
     if(ready){
-      currentTime += (targetTime - currentTime) * 0.15;
-      if(Math.abs(targetTime - currentTime) > 0.005){
-        try{ video.currentTime = currentTime; }catch(e){}
+      currentTime += (targetTime - currentTime) * 0.12;   // gentle glide
+      // only fire a new seek once the previous one finished -> buttery, no queue buildup
+      if(!seeking && Math.abs(targetTime - currentTime) > 0.008){
+        seeking = true;
+        try{ video.currentTime = currentTime; }catch(e){ seeking = false; }
       }
     }
     requestAnimationFrame(tick);
